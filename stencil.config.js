@@ -1,5 +1,5 @@
 exports.config = {
-  namespace: 'mcf-stencil-container',
+  namespace: 'mcfstencil',
   generateDistribution: true,
   generateWWW: false,
   bundles: [{ components: ['my-name'] }],
