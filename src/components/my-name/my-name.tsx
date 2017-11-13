@@ -11,7 +11,6 @@ export class MyName {
 
   render() {
     return [
-      <slot name="custom-html" />,
       <div>
         <br />
         <br />
@@ -21,9 +20,7 @@ export class MyName {
         <my-embedded-component color="red" />
         <br />
         <br />
-      </div>,
-      <slot name="angular-component" />,
-      <slot name="mcf-component" />
+      </div>
     ];
   }
 }
