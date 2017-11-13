@@ -10,22 +10,20 @@ export class MyName {
   @Prop() last: string;
 
   render() {
-    return (
+    return [
+      <slot name="custom-html" />,
       <div>
+        <br />
+        <br />
         Hello, my name is {this.first} {this.last}
         <br />
         <br />
         <my-embedded-component color="red" />
         <br />
         <br />
-        <slot name="custom-html" />
-        <br />
-        <br />
-        <slot name="angular-component" />
-        <br />
-        <br />
-        <slot name="mcf-component" />
-      </div>
-    );
+      </div>,
+      <slot name="angular-component" />,
+      <slot name="mcf-component" />
+    ];
   }
 }
