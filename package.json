@@ -1,7 +1,7 @@
 {
   "name": "mcf-content-container",
   "private": false,
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Stencil App Starter",
   "main": "dist/collection/index.js",
   "types": "dist/collection/index.d.ts",
