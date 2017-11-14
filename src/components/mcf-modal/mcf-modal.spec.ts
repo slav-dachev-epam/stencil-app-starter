@@ -1,17 +1,17 @@
 import { flush, render } from '@stencil/core/testing';
-import { MyName } from './my-name';
+import { McfModal } from './mcf-modal';
 
-describe('my-name', () => {
+describe('mcf-modal', () => {
   it('should build', () => {
-    expect(new MyName()).toBeTruthy();
+    expect(new McfModal()).toBeTruthy();
   });
 
   describe('rendering', () => {
     let element;
     beforeEach(async () => {
       element = await render({
-        components: [MyName],
-        html: '<my-name></my-name>'
+        components: [McfModal],
+        html: '<mcf-modal></mcf-modal>'
       });
     });
 
@@ -32,7 +32,7 @@ describe('my-name', () => {
     });
 
     it('should work with both a first and a list name', async () => {
-      element.first = 'Peter'
+      element.first = 'Peter';
       element.last = 'Parker';
       await flush(element);
       expect(element.textContent).toEqual('Hello, my name is Peter Parker');

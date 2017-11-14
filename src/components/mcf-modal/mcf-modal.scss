@@ -1,0 +1,219 @@
+$app-direction: ltr !default;
+$z-index-backdrop: 2; // scss-lint:disable DefaultRule
+
+@mixin multi-dir() {
+  @if $app-direction == multi {
+    $root: #{&};
+    @at-root [dir='ltr'], [dir='rtl'] {
+      #{$root} {
+        @content;
+      }
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin rtl() {
+  @if $app-direction == multi {
+    $root: #{&};
+    @at-root [dir='rtl'] {
+      #{$root} {
+        @content;
+      }
+    }
+  } @else if $app-direction == rtl {
+    @content;
+  }
+}
+
+@mixin ltr() {
+  @if $app-direction == multi {
+    $root: #{&};
+    @at-root [dir='ltr'] {
+      #{$root} {
+        @content;
+      }
+    }
+  } @else if $app-direction == ltr {
+    @content;
+  }
+}
+
+// Add position horizontal
+// @param {string} $start - amount to position start
+// @param {string} $end - amount to left: 0; end
+// ----------------------------------------------------------
+@mixin position-horizontal($start: null, $end: null) {
+  @if $start == $end {
+    @include multi-dir() {
+      left: $start;
+      right: $end;
+    }
+  } @else {
+    @include ltr() {
+      left: $start;
+      right: $end;
+    }
+    @include rtl() {
+      left: $end;
+      right: $start;
+    }
+  }
+}
+
+// Add position for all directions
+// @param {string} $top
+// @param {string} $end
+// @param {string} $bottom
+// @param {string} $start
+// ----------------------------------------------------------
+@mixin position($top: null, $end: null, $bottom: null, $start: null) {
+  @include position-horizontal($start, $end);
+  top: $top;
+  bottom: $bottom;
+}
+
+// Modals
+// --------------------------------------------------
+
+/// @prop - Min width of the modal inset
+$modal-inset-min-width: 768px !default;
+
+/// @prop - Minimum height of the small modal inset
+$modal-inset-min-height-small: 600px !default;
+
+/// @prop - Minimum height of the large modal inset
+$modal-inset-min-height-large: 768px !default;
+
+/// @prop - Width of the large modal inset
+$modal-inset-width: 600px !default;
+
+/// @prop - Height of the small modal inset
+$modal-inset-height-small: 500px !default;
+
+/// @prop - Height of the large modal inset
+$modal-inset-height-large: 600px !default;
+
+/// @prop - Color of the backdrop
+$modal-backdrop-color: #000 !default;
+
+/// @prop - Box shadow color of the alert
+$modal-inset-box-shadow-color: rgba(0, 0, 0, 0.4) !default;
+
+/// @prop - Box shadow of the alert
+$modal-inset-box-shadow: 0 28px 48px $modal-inset-box-shadow-color !default;
+
+/// @prop - background color of modal content
+$modal-content-background-color: rgba(255, 255, 255, 1) !default;
+
+mcf-modal {
+  @include position(0, null, null, 0);
+
+  position: absolute;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  contain: strict;
+
+  font-family: Courier New, Courier, monospace;
+}
+
+mcf-modal-controller {
+  display: none;
+}
+
+.modal-backdrop {
+  @include position(0, null, null, 0);
+
+  position: absolute;
+
+  z-index: $z-index-backdrop;
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: $modal-backdrop-color;
+  opacity: 0.4;
+  transform: translateZ(0);
+
+  @media not all and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-small) {
+    visibility: hidden;
+  }
+}
+
+.modal-backdrop.backdrop-no-tappable {
+  cursor: auto;
+}
+
+.modal-backdrop.hide-backdrop {
+  visibility: hidden;
+}
+
+.modal-wrapper {
+  z-index: 10;
+
+  height: 100%;
+
+  contain: strict;
+
+  @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-small) {
+    @include position(calc(50% - (#{$modal-inset-height-small}/2)), null, null, calc(50% - (#{$modal-inset-width}/2)));
+
+    position: absolute;
+
+    width: $modal-inset-width;
+    height: $modal-inset-height-small;
+  }
+
+  @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-large) {
+    @include position(calc(50% - (#{$modal-inset-height-large}/2)), null, null, calc(50% - (#{$modal-inset-width}/2)));
+
+    position: absolute;
+
+    width: $modal-inset-width;
+    height: $modal-inset-height-large;
+  }
+}
+
+.modal-content {
+  @include position(0, null, null, 0);
+
+  position: absolute;
+
+  display: block;
+
+  // override the default visibility cloaking
+  // added for each component before it's loaded
+  // visibility: inherit !important;
+
+  width: 100%;
+  height: 100%;
+
+  // do not show by default, but still render
+  // so we can get dimensions before transitioning in
+  opacity: 0;
+
+  contain: strict;
+
+  background-color: $modal-content-background-color;
+}
+
+.show-modal .modal-content {
+  // show the modal now that it's ready
+  opacity: 1;
+}
+
+.modal-wrapper {
+  transform: translate3d(0, 40px, 0);
+
+  @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-small) {
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: $modal-inset-box-shadow;
+  }
+}

@@ -6,6 +6,105 @@
 
 import '@stencil/router';
 
+import { McfModalController as McfModalController } from './components/mcf-modal-controller/mcf-modal-controller';
+
+interface HTMLMcfModalControllerElement extends McfModalController, HTMLElement {
+}
+declare var HTMLMcfModalControllerElement: {
+  prototype: HTMLMcfModalControllerElement;
+  new (): HTMLMcfModalControllerElement;
+};
+declare global {
+  interface HTMLElementTagNameMap {
+      "mcf-modal-controller": HTMLMcfModalControllerElement;
+  }
+  interface ElementTagNameMap {
+      "mcf-modal-controller": HTMLMcfModalControllerElement;
+  }
+  namespace JSX {
+      interface IntrinsicElements {
+          "mcf-modal-controller": JSXElements.McfModalControllerAttributes;
+      }
+  }
+  namespace JSXElements {
+      export interface McfModalControllerAttributes extends HTMLAttributes {
+          mode?: string,
+          color?: string,
+        
+          create?: any
+      }
+  }
+}
+
+import { McfModal as McfModal } from './components/mcf-modal/mcf-modal';
+
+interface HTMLMcfModalElement extends McfModal, HTMLElement {
+}
+declare var HTMLMcfModalElement: {
+  prototype: HTMLMcfModalElement;
+  new (): HTMLMcfModalElement;
+};
+declare global {
+  interface HTMLElementTagNameMap {
+      "mcf-modal": HTMLMcfModalElement;
+  }
+  interface ElementTagNameMap {
+      "mcf-modal": HTMLMcfModalElement;
+  }
+  namespace JSX {
+      interface IntrinsicElements {
+          "mcf-modal": JSXElements.McfModalAttributes;
+      }
+  }
+  namespace JSXElements {
+      export interface McfModalAttributes extends HTMLAttributes {
+          mode?: string,
+          color?: string,
+        
+          present?: any,
+          dismiss?: any,
+          component?: string,
+          componentProps?: any,
+          cssClass?: string,
+          enableBackdropDismiss?: boolean,
+          enterAnimation?: boolean,
+          exitAnimation?: boolean,
+          modalId?: string,
+          showBackdrop?: boolean
+      }
+  }
+}
+
+import { ModalUserData as ModalUserData } from './components/modal-user-data/modal-user-data';
+
+interface HTMLModalUserDataElement extends ModalUserData, HTMLElement {
+}
+declare var HTMLModalUserDataElement: {
+  prototype: HTMLModalUserDataElement;
+  new (): HTMLModalUserDataElement;
+};
+declare global {
+  interface HTMLElementTagNameMap {
+      "modal-user-data": HTMLModalUserDataElement;
+  }
+  interface ElementTagNameMap {
+      "modal-user-data": HTMLModalUserDataElement;
+  }
+  namespace JSX {
+      interface IntrinsicElements {
+          "modal-user-data": JSXElements.ModalUserDataAttributes;
+      }
+  }
+  namespace JSXElements {
+      export interface ModalUserDataAttributes extends HTMLAttributes {
+          mode?: string,
+          color?: string,
+        
+          userId?: number
+      }
+  }
+}
+
 import { MyEmbeddedComponent as MyEmbeddedComponent } from './components/my-embedded-component/my-embedded-component';
 
 interface HTMLMyEmbeddedComponentElement extends MyEmbeddedComponent, HTMLElement {
@@ -31,37 +130,6 @@ declare global {
           mode?: string,
           color?: string,
         
-      }
-  }
-}
-
-import { MyName as MyName } from './components/my-name/my-name';
-
-interface HTMLMyNameElement extends MyName, HTMLElement {
-}
-declare var HTMLMyNameElement: {
-  prototype: HTMLMyNameElement;
-  new (): HTMLMyNameElement;
-};
-declare global {
-  interface HTMLElementTagNameMap {
-      "my-name": HTMLMyNameElement;
-  }
-  interface ElementTagNameMap {
-      "my-name": HTMLMyNameElement;
-  }
-  namespace JSX {
-      interface IntrinsicElements {
-          "my-name": JSXElements.MyNameAttributes;
-      }
-  }
-  namespace JSXElements {
-      export interface MyNameAttributes extends HTMLAttributes {
-          mode?: string,
-          color?: string,
-        
-          first?: string,
-          last?: string
       }
   }
 }
