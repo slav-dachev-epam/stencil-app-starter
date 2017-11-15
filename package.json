@@ -1,12 +1,14 @@
 {
   "name": "mcf-content-container",
   "private": false,
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Stencil App Starter",
   "main": "dist/collection/index.js",
   "types": "dist/collection/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "browser": "dist/mcfstencil.js",
   "scripts": {
     "build": "stencil build --prerender",
@@ -41,6 +43,12 @@
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/@stencil/core/testing/jest.preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(tsx?|jsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "json", "jsx"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx"
+    ]
   }
 }
