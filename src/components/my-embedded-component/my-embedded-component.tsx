@@ -14,8 +14,9 @@ export class MyEmbeddedComponent {
   private modalCtrl;
   private _componentProps: any = DEFAULT_COMPONENT_PROPS;
 
-  @Prop() modalClass: string = 'my-modal my-blue-modal';
-  @Prop() component: string = 'modal-user-data';
+  @Prop() modalClass?: string = 'my-modal my-blue-modal';
+  @Prop() modalId?: string;
+  @Prop() componentName?: string;
   @Prop() componentProps: any = {};
 
   @PropDidChange('componentProps')
@@ -48,18 +49,23 @@ export class MyEmbeddedComponent {
 
     const modalOpts: IModalOptions = {
       cssClass: this.modalClass,
-      component: this.component,
+      component: this.componentName,
       componentProps: this._componentProps
     };
 
-    this.modalCtrl.create(modalOpts).then((modal: McfModal) => modal.present());
+    const modalSelector: string | undefined = this.modalId ? `[id='${this.modalId}']` : undefined;
+
+    this.modalCtrl.create(modalSelector, modalOpts).then((modal: McfModal) => modal.present());
   }
 
   @Listen('body:mcfModalDidDismiss, body:mcfModalDidUnload')
   protected modalWillDismiss(ev: IModalEvent): void {
     const modal: McfModal = ev.detail.modal;
-    if (modal.component === this.component) {
-      console.log('DID DISMISS modal data');
+    if (
+      (this.modalId && this.modalId === modal.getElement().getAttribute('id')) ||
+      (this.componentName && this.componentName === modal.component)
+    ) {
+      console.log(`DID DISMISS modal: ${this.modalId ? `#${this.modalId}` : this.componentName}`);
     }
   }
 

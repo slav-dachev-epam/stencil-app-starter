@@ -1,7 +1,7 @@
 exports.config = {
-  namespace: 'mcfstencil',
-  generateDistribution: true,
-  generateWWW: false,
+  // namespace: 'mcfstencil',
+  // generateDistribution: true,
+  // generateWWW: false,
   bundles: [
     { components: ['mcf-modal', 'mcf-modal-controller', 'modal-user-data'] },
     { components: ['my-embedded-component'] }

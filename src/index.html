@@ -18,7 +18,17 @@
 
 <body>
 
-    <my-embedded-component component-props='{ "userId": "8675309" }'></my-embedded-component>
+    <mcf-modal id="34adasd">
+        <div slot="prerendered-content" class="modal-content">Angular Component</div>
+    </mcf-modal>
+
+    <my-embedded-component modal-id="34adasd"></my-embedded-component>
+
+    <br />
+    <br />
+
+    <my-embedded-component component-name="modal-user-data" component-props='{ "userId": "3472834723" }'></my-embedded-component>
+
     <mcf-modal-controller></mcf-modal-controller>
 
 </body>

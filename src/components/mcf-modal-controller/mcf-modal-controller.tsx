@@ -10,8 +10,15 @@ export class McfModalController {
   private modals: McfModal[] = [];
 
   @Method()
-  create(opts?: IModalOptions, appRootSelector: string = 'body'): Promise<McfModal> {
-    const modal = document.createElement('mcf-modal');
+  create(modalSelector?: string, opts?: IModalOptions, appRootSelector: string = 'body'): Promise<McfModal> {
+    let modal;
+
+    if (modalSelector) {
+      modal = document.querySelector(modalSelector);
+    } else {
+      modal = document.createElement('mcf-modal');
+    }
+
     const id: number = this.ids++;
     const modalId: string = `modal-${id}`;
 
@@ -24,8 +31,12 @@ export class McfModalController {
     Object.assign(modal, opts);
 
     // append the modal element to the document body
-    const appRoot: Element = document.body;
+    const appRoot: Element = document.querySelector(appRootSelector) || document.body;
     appRoot.appendChild(modal as any);
+
+    if (modalSelector) {
+      return Promise.resolve(modal);
+    }
 
     // store the resolve function to be called later up when the modal loads
     return new Promise<McfModal>(resolve => {

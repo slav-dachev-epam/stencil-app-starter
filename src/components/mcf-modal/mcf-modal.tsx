@@ -72,9 +72,20 @@ export class McfModal {
   @Method()
   dismiss(): void {
     this.mcfModalDidDismiss.emit({ modal: this });
-    Context.dom.write(() => {
-      this.el.parentNode.removeChild(this.el);
-    });
+    if (this.component) {
+      Context.dom.write(() => {
+        this.el.parentNode.removeChild(this.el);
+      });
+    } else {
+      Context.dom.write(() => {
+        this.el.style.display = 'none';
+      });
+    }
+  }
+
+  @Method()
+  getElement(): HTMLElement {
+    return this.el;
   }
 
   protected componentDidLoad(): void {
@@ -108,6 +119,12 @@ export class McfModal {
 
     dialogClasses['show-modal'] = this.isPresented;
 
+    if (this.isPresented) {
+      Context.dom.write(() => {
+        this.el.style.display = 'block';
+      });
+    }
+
     return [
       <div
         onClick={() => this.backdropClick()}
@@ -119,6 +136,7 @@ export class McfModal {
       <div role="dialog" class={dialogClasses}>
         {this.showCloseIcon ? <div class="close small rounded thick" onClick={() => this.closeClick()} /> : null}
         <ThisComponent {...this.componentProps} class={thisComponentClasses} />
+        <slot name="prerendered-content" />
       </div>
     ];
   }

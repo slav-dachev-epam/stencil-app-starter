@@ -63,6 +63,7 @@ declare global {
         
           present?: any,
           dismiss?: any,
+          getElement?: any,
           component?: string,
           componentProps?: any,
           cssClass?: string,
@@ -132,7 +133,8 @@ declare global {
           color?: string,
         
           modalClass?: string,
-          component?: string,
+          modalId?: string,
+          componentName?: string,
           componentProps?: any
       }
   }
