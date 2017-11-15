@@ -47,6 +47,7 @@ export class McfModal {
   @Prop() exitAnimation: boolean = true;
   @Prop() modalId: string;
   @Prop() showBackdrop: boolean = true;
+  @Prop() showCloseIcon: boolean = true;
 
   style: any = {};
 
@@ -90,6 +91,10 @@ export class McfModal {
     }
   }
 
+  protected closeClick(): void {
+    this.dismiss();
+  }
+
   protected render() {
     const ThisComponent: any = this.component;
 
@@ -105,13 +110,14 @@ export class McfModal {
 
     return [
       <div
-        onClick={this.backdropClick.bind(this)}
+        onClick={() => this.backdropClick()}
         class={{
           'modal-backdrop': true,
           'hide-backdrop': !this.showBackdrop
         }}
       />,
       <div role="dialog" class={dialogClasses}>
+        {this.showCloseIcon ? <div class="close small rounded thick" onClick={() => this.closeClick()} /> : null}
         <ThisComponent {...this.componentProps} class={thisComponentClasses} />
       </div>
     ];
@@ -127,6 +133,7 @@ export interface IModalOptions {
   exitAnimation?: boolean;
   cssClass?: string;
   modalId?: string;
+  showCloseIcon?: boolean;
 }
 
 export interface IModalEvent extends Event {

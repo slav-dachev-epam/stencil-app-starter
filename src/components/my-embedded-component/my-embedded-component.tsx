@@ -1,25 +1,55 @@
-import { Component, Prop, Listen } from '@stencil/core';
+import { Component, Prop, Listen, Event, EventEmitter, PropDidChange } from '@stencil/core';
 import { McfModal, IModalEvent, IModalOptions } from '../mcf-modal/mcf-modal';
-import { ModalUserData } from '../modal-user-data/modal-user-data';
-// import { McfModalController } from '../mcf-modal-controller/mcf-modal-controller';
+
+const DEFAULT_COMPONENT_PROPS: any = {};
+
+const isObject = (obj): boolean => {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
 
 @Component({
   tag: 'my-embedded-component'
 })
 export class MyEmbeddedComponent {
   private modalCtrl;
+  private _componentProps: any = DEFAULT_COMPONENT_PROPS;
 
-  @Prop() color: string = 'blue';
+  @Prop() modalClass: string = 'my-modal my-blue-modal';
+  @Prop() component: string = 'modal-user-data';
+  @Prop() componentProps: any = {};
+
+  @PropDidChange('componentProps')
+  componentPropsDidChange(componentProps: any): void {
+    this.setComponentProps(componentProps);
+  }
+
+  /**
+   * @output {UIEvent} Emitted on modal dismiss.
+   */
+  @Event() mcfModalDismiss: EventEmitter;
+
+  setComponentProps(componentProps: any): void {
+    if (!componentProps || componentProps === '') {
+      this._componentProps = DEFAULT_COMPONENT_PROPS;
+    } else if (typeof componentProps === 'string') {
+      try {
+        this._componentProps = JSON.parse(componentProps);
+      } catch (error) {
+        console.log(error);
+        this._componentProps = DEFAULT_COMPONENT_PROPS;
+      }
+    } else if (componentProps && isObject(componentProps)) {
+      this._componentProps = componentProps;
+    }
+  }
 
   presentModal(event: UIEvent): void {
     event.preventDefault();
 
     const modalOpts: IModalOptions = {
-      cssClass: `my-modal my-${this.color}-modal`,
-      component: 'modal-user-data',
-      componentProps: {
-        userId: 8675309
-      }
+      cssClass: this.modalClass,
+      component: this.component,
+      componentProps: this._componentProps
     };
 
     this.modalCtrl.create(modalOpts).then((modal: McfModal) => modal.present());
@@ -28,23 +58,17 @@ export class MyEmbeddedComponent {
   @Listen('body:mcfModalDidDismiss, body:mcfModalDidUnload')
   protected modalWillDismiss(ev: IModalEvent): void {
     const modal: McfModal = ev.detail.modal;
-    if (modal instanceof ModalUserData) {
+    if (modal.component === this.component) {
       console.log('DID DISMISS modal data');
     }
   }
 
   componentWillLoad(): void {
+    this.setComponentProps(this.componentProps);
     this.modalCtrl = document.querySelector('mcf-modal-controller');
   }
 
   protected render() {
-    return (
-      <div>
-        My favorite color is {this.color}
-        <br />
-        <br />
-        <button onClick={(event: UIEvent) => this.presentModal(event)}>Present modal, pass params</button>
-      </div>
-    );
+    return <button onClick={(event: UIEvent) => this.presentModal(event)}>Present modal, pass params</button>;
   }
 }

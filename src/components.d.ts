@@ -70,7 +70,8 @@ declare global {
           enterAnimation?: boolean,
           exitAnimation?: boolean,
           modalId?: string,
-          showBackdrop?: boolean
+          showBackdrop?: boolean,
+          showCloseIcon?: boolean
       }
   }
 }
@@ -130,6 +131,9 @@ declare global {
           mode?: string,
           color?: string,
         
+          modalClass?: string,
+          component?: string,
+          componentProps?: any
       }
   }
 }

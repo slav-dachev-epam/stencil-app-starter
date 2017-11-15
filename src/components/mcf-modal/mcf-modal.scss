@@ -161,6 +161,8 @@ mcf-modal-controller {
 
   contain: strict;
 
+  transform: translate3d(0, 40px, 0);
+
   @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-small) {
     @include position(calc(50% - (#{$modal-inset-height-small}/2)), null, null, calc(50% - (#{$modal-inset-width}/2)));
 
@@ -168,6 +170,10 @@ mcf-modal-controller {
 
     width: $modal-inset-width;
     height: $modal-inset-height-small;
+
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: $modal-inset-box-shadow;
   }
 
   @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-large) {
@@ -177,6 +183,14 @@ mcf-modal-controller {
 
     width: $modal-inset-width;
     height: $modal-inset-height-large;
+  }
+
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    cursor: pointer;
   }
 }
 
@@ -208,12 +222,88 @@ mcf-modal-controller {
   opacity: 1;
 }
 
-.modal-wrapper {
-  transform: translate3d(0, 40px, 0);
+// Close Icon
+// --------------------------------------------------
 
-  @media only screen and (min-width: $modal-inset-min-width) and (min-height: $modal-inset-min-height-small) {
-    border-radius: 2px;
-    overflow: hidden;
-    box-shadow: $modal-inset-box-shadow;
+$blue: #1ebcc5;
+
+.close {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+
+  &:hover {
+    &::before,
+    &::after {
+      background: $blue;
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    margin-top: -1px;
+    background: #000;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+
+  &.big {
+    transform: scale(3);
+  }
+
+  &.small {
+    transform: scale(0.5);
+  }
+
+  &.hairline {
+    &::before,
+    &::after {
+      height: 1px;
+    }
+  }
+
+  &.thick {
+    &::before,
+    &::after {
+      height: 4px;
+      margin-top: -2px;
+    }
+  }
+
+  &.black {
+    &::before,
+    &::after {
+      height: 8px;
+      margin-top: -4px;
+    }
+  }
+
+  &.heavy {
+    &::before,
+    &::after {
+      height: 12px;
+      margin-top: -6px;
+    }
+  }
+
+  &.rounded {
+    &::before,
+    &::after {
+      border-radius: 5px;
+    }
   }
 }
