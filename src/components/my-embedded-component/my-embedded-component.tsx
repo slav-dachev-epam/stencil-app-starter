@@ -11,10 +11,19 @@ const isObject = (obj): boolean => {
   tag: 'my-embedded-component'
 })
 export class MyEmbeddedComponent {
+  private _modal: McfModal;
   private modalCtrl;
   private _componentProps: any = DEFAULT_COMPONENT_PROPS;
 
   @Prop() modalClass?: string = 'my-modal my-blue-modal';
+
+  @PropDidChange('modalClass')
+  modalClassDidChange(modalClass: string): void {
+    if (this._modal && modalClass) {
+      this._modal.cssClass = modalClass;
+    }
+  }
+
   @Prop() modalId?: string;
   @Prop() componentName?: string;
   @Prop() componentProps: any = {};
@@ -55,7 +64,10 @@ export class MyEmbeddedComponent {
 
     const modalSelector: string | undefined = this.modalId ? `[id='${this.modalId}']` : undefined;
 
-    this.modalCtrl.create(modalSelector, modalOpts).then((modal: McfModal) => modal.present());
+    this.modalCtrl.create(modalSelector, modalOpts).then((modal: McfModal) => {
+      modal.present();
+      this._modal = modal;
+    });
   }
 
   @Listen('body:mcfModalDidDismiss, body:mcfModalDidUnload')
@@ -65,6 +77,7 @@ export class MyEmbeddedComponent {
       (this.modalId && this.modalId === modal.getElement().getAttribute('id')) ||
       (this.componentName && this.componentName === modal.component)
     ) {
+      this._modal = null;
       console.log(`DID DISMISS modal: ${this.modalId ? `#${this.modalId}` : this.componentName}`);
     }
   }
