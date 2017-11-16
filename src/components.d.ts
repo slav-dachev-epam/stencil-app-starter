@@ -66,13 +66,13 @@ declare global {
           getElement?: any,
           component?: string,
           componentProps?: any,
-          cssClass?: string,
           enableBackdropDismiss?: boolean,
           enterAnimation?: boolean,
           exitAnimation?: boolean,
           modalId?: string,
           showBackdrop?: boolean,
-          showCloseIcon?: boolean
+          showCloseIcon?: boolean,
+          cssClass?: string
       }
   }
 }

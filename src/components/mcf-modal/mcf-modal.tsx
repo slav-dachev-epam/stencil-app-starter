@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Listen, Prop, State, Method } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Listen, Prop, State, Method, PropDidChange } from '@stencil/core';
 
 export type CssClassMap = { [className: string]: boolean };
 
@@ -41,17 +41,25 @@ export class McfModal {
 
   @Prop() component: string;
   @Prop() componentProps: any = {};
-  @Prop() cssClass: string;
   @Prop() enableBackdropDismiss: boolean = true;
   @Prop() enterAnimation: boolean = true;
   @Prop() exitAnimation: boolean = true;
   @Prop() modalId: string;
   @Prop() showBackdrop: boolean = true;
   @Prop() showCloseIcon: boolean = true;
+  @Prop() cssClass: string;
+
+  @PropDidChange('cssClass')
+  cssClassDidChange(cssClass: string): void {
+    if (cssClass) {
+      this.classValue = cssClass;
+    }
+  }
 
   style: any = {};
 
   @State() isPresented: boolean = false;
+  @State() classValue: string;
 
   // private animation: Animation;
 
@@ -88,6 +96,10 @@ export class McfModal {
     return this.el;
   }
 
+  protected componentWillLoad(): void {
+    this.classValue = this.cssClass;
+  }
+
   protected componentDidLoad(): void {
     this.mcfModalDidLoad.emit({ modal: this });
   }
@@ -110,8 +122,8 @@ export class McfModal {
     const ThisComponent: any = this.component;
 
     let userCssClasses: string = 'modal-content';
-    if (this.cssClass) {
-      userCssClasses += ` ${this.cssClass}`;
+    if (this.classValue) {
+      userCssClasses += ` ${this.classValue}`;
     }
 
     const dialogClasses: CssClassMap = createClasses('modal-wrapper');
