@@ -135,7 +135,7 @@ export class McfModal {
       />,
       <div role="dialog" class={dialogClasses}>
         {this.showCloseIcon ? <div class="close small rounded thick" onClick={() => this.closeClick()} /> : null}
-        <ThisComponent {...this.componentProps} class={thisComponentClasses} />
+        {this.component ? <ThisComponent {...this.componentProps} class={thisComponentClasses} /> : null}
         <slot name="prerendered-content" />
       </div>
     ];

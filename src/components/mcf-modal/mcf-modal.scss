@@ -215,6 +215,8 @@ mcf-modal-controller {
   contain: strict;
 
   background-color: $modal-content-background-color;
+
+  padding: 20px;
 }
 
 .show-modal .modal-content {
