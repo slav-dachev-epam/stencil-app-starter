@@ -20,7 +20,7 @@ export class MyEmbeddedComponent {
   @PropWillChange('modalClass')
   modalClassDidChange(modalClass: string): void {
     if (this._modal && modalClass) {
-      this._modal.cssClass = modalClass;
+      this._modal.getElement().setAttribute('css-class', modalClass);
     }
   }
 
