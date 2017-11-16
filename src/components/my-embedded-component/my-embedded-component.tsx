@@ -1,4 +1,4 @@
-import { Component, Prop, Listen, Event, EventEmitter, PropDidChange } from '@stencil/core';
+import { Component, Prop, Listen, Event, EventEmitter, PropWillChange } from '@stencil/core';
 import { McfModal, IModalEvent, IModalOptions } from '../mcf-modal/mcf-modal';
 
 const DEFAULT_COMPONENT_PROPS: any = {};
@@ -17,7 +17,7 @@ export class MyEmbeddedComponent {
 
   @Prop() modalClass?: string = 'my-modal my-blue-modal';
 
-  @PropDidChange('modalClass')
+  @PropWillChange('modalClass')
   modalClassDidChange(modalClass: string): void {
     if (this._modal && modalClass) {
       this._modal.cssClass = modalClass;
@@ -28,7 +28,7 @@ export class MyEmbeddedComponent {
   @Prop() componentName?: string;
   @Prop() componentProps: any = {};
 
-  @PropDidChange('componentProps')
+  @PropWillChange('componentProps')
   componentPropsDidChange(componentProps: any): void {
     this.setComponentProps(componentProps);
   }

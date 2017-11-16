@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Listen, Prop, State, Method, PropDidChange } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, Listen, Prop, State, Method, PropWillChange } from '@stencil/core';
 
 export type CssClassMap = { [className: string]: boolean };
 
@@ -49,7 +49,7 @@ export class McfModal {
   @Prop() showCloseIcon: boolean = true;
   @Prop() cssClass: string;
 
-  @PropDidChange('cssClass')
+  @PropWillChange('cssClass')
   cssClassDidChange(cssClass: string): void {
     if (cssClass) {
       this.classValue = cssClass;
@@ -81,13 +81,9 @@ export class McfModal {
   dismiss(): void {
     this.mcfModalDidDismiss.emit({ modal: this });
     if (this.component) {
-      Context.dom.write(() => {
-        this.el.parentNode.removeChild(this.el);
-      });
+      this.el.parentNode.removeChild(this.el);
     } else {
-      Context.dom.write(() => {
-        this.el.style.display = 'none';
-      });
+      this.el.style.display = 'none';
     }
   }
 
@@ -132,9 +128,7 @@ export class McfModal {
     dialogClasses['show-modal'] = this.isPresented;
 
     if (this.isPresented) {
-      Context.dom.write(() => {
-        this.el.style.display = 'block';
-      });
+      this.el.style.display = 'block';
     }
 
     return [
